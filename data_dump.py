@@ -5,7 +5,7 @@ import json
 
 client= pymongo.MongoClient('')
  
-DATAPATH= 'D:\aps_fault_detection_main\aps_failure_training_set1.csv'
+DATAPATH= "aps_failure_training_set1.csv"
 DATABASE_NAME= 'aps'
 COLLECTION_NAME= 'sensor'
 
