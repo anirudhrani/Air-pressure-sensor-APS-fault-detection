@@ -17,7 +17,7 @@ REQUIREMENTS_FILE_NAME= 'requirements.txt'
 REMOVE_E= "-e ."
 
 
-def get_requirements():
+def get_requirements()->List[str]:
     # TODO: Write a function that reads all the lines from requirements.txt and returns it as a list.
     with open(REQUIREMENTS_FILE_NAME) as requirements_file:
 
