@@ -1,7 +1,7 @@
 import pandas as pd
-from logger import logging
-from exception import SensorException
-from config import mongo_client
+from sensor.logger import logging
+from sensor.exception import SensorException
+from sensor.config import mongo_client
 import sys
 
 def get_collection_as_dataframe(database_name:str, collection_name:str)->pd.DataFrame:

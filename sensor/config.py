@@ -1,6 +1,5 @@
 import pandas as pd
 import pymongo 
-import json
 from dataclasses import dataclass
 import os
 
@@ -12,7 +11,7 @@ class EnvironmentVariable:
     #
     aws_access_key= os.getenv("AWS_ACCESS_KEY_ID")
     aws_secret_key= os.getenv("AWS_SECRET_KEY")
-    
+
 env_var= EnvironmentVariable()
 mongo_client= pymongo.MongoClient(env_var.mongodb_url)
 

@@ -18,5 +18,5 @@ DIRECTORY_PATH= os.path.join(DIRECTORY_NAME, FILE_NAME)
 logging.basicConfig(
     filename= DIRECTORY_PATH,
     format= "[ %(asctime)s %(lineno)d %(name)s - %(levelname)s %(message)s]",
-    level= logging.INFO,
+    level= logging.INFO
 )
