@@ -20,9 +20,6 @@ if __name__== '__main__':
 
     # json.loads converts any python object to json object.
     json_records= list(json.loads(df.T.to_json()).values())
-    #test= df.T.to_json()
-    #print(f'test {test}')
-    #print(f'Final {json_records[0]}')
     
     # Bulk insert data to mongo db
     client[DATABASE_NAME][COLLECTION_NAME].insert_many(json_records)
