@@ -48,10 +48,19 @@ class DataIngestionConfig:
         except Exception  as e:
             raise SensorException(e,sys)
 
+# Data Validation.
+class DataValidationConfig:
+    def __init__(self, training_pipeline_config: TrainingPipelineConfig) :
+        # Creating data_ingestion directory inside the timestamp folder inside the artifact directory.
+        self.data_validation_dir= os.path.join(training_pipeline_config.artifact_dir, "data_validationn")
+
+        # Creating Report file path in artifact folder.
+        self.report_file_path= os.path.join(self.data_validation_dir,"validation_report.yaml")
 
 
 
-class DataValidationConfig:...
+
+
 class DataTransformationConfig:...
 class ModelTrainerConfig:...
 class ModelEvaluationConfig:...

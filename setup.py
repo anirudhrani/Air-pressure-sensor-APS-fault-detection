@@ -22,6 +22,7 @@ def get_requirements()->List[str]:
     with open(REQUIREMENTS_FILE_NAME) as requirements_file:
 
         requirements_list= requirements_file.readlines()
+    # Getting all the names of the requirements to a single line.
     requirements_list= [i.replace("\n", "") for i in requirements_list]
     if REMOVE_E in requirements_list:
         requirements_list.remove(REMOVE_E)

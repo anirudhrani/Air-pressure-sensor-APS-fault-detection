@@ -1,7 +1,7 @@
 # File Structure
 ```
 Air pressure sensor fault detection
-
+    |
     |
     |-- DATA VISUALIZATION -- |
     |                         |-- Data_viz.ipynb
