@@ -57,6 +57,7 @@ class DataValidationConfig:
         # Creating Report file path in artifact folder.
         self.report_file_path= os.path.join(self.data_validation_dir,"validation_report.yaml")
 
+        self.missing_threshold:float= 0.2
 
 
 
