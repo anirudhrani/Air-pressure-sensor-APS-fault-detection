@@ -52,14 +52,14 @@ class DataIngestionConfig:
 class DataValidationConfig:
     def __init__(self, training_pipeline_config: TrainingPipelineConfig) :
         # Creating data_ingestion directory inside the timestamp folder inside the artifact directory.
-        self.data_validation_dir= os.path.join(training_pipeline_config.artifact_dir, "data_validationn")
+        self.data_validation_dir= os.path.join(training_pipeline_config.artifact_dir, "data_validation")
 
         # Creating Report file path in artifact folder.
         self.report_file_path= os.path.join(self.data_validation_dir,"validation_report.yaml")
 
         self.missing_threshold:float= 0.2
 
-
+        self.base_data_path= os.path.join("aps_failure_training_set1.csv")
 
 
 class DataTransformationConfig:...
