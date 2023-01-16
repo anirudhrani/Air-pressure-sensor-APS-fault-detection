@@ -21,13 +21,14 @@ class DataValidation:
             # Initializing a dictionary for the validation report.
             self.validation_error= dict()
         except Exception as e:
+            print('\nError:', e)
             raise SensorException(e, sys)
 
     def required_columns_check(self, base_df: pd.DataFrame,
                                      present_df: pd.DataFrame,
                                      report_key_name: str)-> bool:
 
-        """Checks if enough data is required for going into the next phase of poduction."""
+        """Checks if enough data is required for going into the next phase of production."""
         try:
             missing_columns= []
             base_columns =  base_df.columns
@@ -44,6 +45,7 @@ class DataValidation:
             return True
 
         except Exception as e:
+            print('\nError:', e)
             SensorException(e, sys)
 
 
@@ -68,8 +70,11 @@ class DataValidation:
                     logging.info(f"Alternate hypothesis is true as p value {same_distribution.pvalue} is less than 0.05.")
                     drift_report[base_column]= { "pvalue": same_distribution.pvalue,
                                                  "Data Drift Detected": True}
+
+
             self.validation_error[report_key_name]= drift_report
         except Exception as e:
+            print('\nError:', e)
             SensorException(e, sys)
 
 
@@ -104,10 +109,13 @@ class DataValidation:
 
             return df
         except Exception as e:
+            print('\nError:', e)
             SensorException(e, sys)
 
     def initiate_data_validation(self)-> artifact_entity.DataValidationArtifact:
         try:
+
+            logging.info(f'Data Validation Initiated.')
             #1 Read Base data frame.
             base_df= pd.read_csv(self.data_validation_config.base_data_path)
 
@@ -115,6 +123,7 @@ class DataValidation:
             base_df.replace({"na": np.NAN}, inplace= True)
 
             #3 Drop Missing values.
+            logging.info(f'Dropped columns with missing values from base data frame.')
             base_df= self.drop_columns_with_missing_vals(df= base_df, report_key_name= "base_dataset")
 
             #4 Read train and test files.
@@ -129,9 +138,11 @@ class DataValidation:
             train_df_column_status= self.required_columns_check(base_df= base_df,
                                                                 present_df= train_df,
                                                                 report_key_name="missing_columns_in_train_dataset")
+            logging.info(f'Dropped columns with missing values from training data.')
             test_df_column_status= self.required_columns_check(base_df= base_df,
                                                                present_df= test_df,
                                                                report_key_name="missing_columns_in_train_dataset")
+            logging.info(f'Dropped columns with missing values from testing data.')
 
             #6 If required columns are found then check for DATA DRIFT.
 
@@ -146,10 +157,12 @@ class DataValidation:
 
             #7 Write to validation report.
             utils.write_yaml_file(file_path= self.data_validation_config.report_file_path, data= self.validation_error)
+            logging.info(f'Report.yaml generated.')
 
             #8 Prepare the data validation artifact.
 
             data_validaton_artifact= artifact_entity.DataValidationArtifact(report_file_path= self.data_validation_config.report_file_path)
             return self.validation_error, data_validaton_artifact
         except Exception as e:
+            print('\n Error: ',e)
             SensorException(e, sys)

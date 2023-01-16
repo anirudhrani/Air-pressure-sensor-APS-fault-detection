@@ -20,7 +20,8 @@ def get_collection_as_dataframe(database_name:str, collection_name:str)->pd.Data
             df.drop(columns= '_id')
         return df
     except Exception as e:
-        SensorException(e, sys)
+        print('\nError:', e)
+        raise SensorException(e, sys)
 
 def write_yaml_file(file_path, data:dict):
     try:
@@ -33,4 +34,5 @@ def write_yaml_file(file_path, data:dict):
 
 
     except Exception as e:
-        SensorException(e, sys)
+        print('\nError:', e)
+        raise SensorException(e, sys)

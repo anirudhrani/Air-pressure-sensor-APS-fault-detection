@@ -55,14 +55,17 @@ class DataValidationConfig:
         self.data_validation_dir= os.path.join(training_pipeline_config.artifact_dir, "data_validation")
 
         # Creating Report file path in artifact folder.
-        self.report_file_path= os.path.join(self.data_validation_dir,"validation_report.yaml")
+        self.report_file_path= os.path.join(self.data_validation_dir,"report.yaml")
 
         self.missing_threshold:float= 0.2
 
         self.base_data_path= os.path.join("aps_failure_training_set1.csv")
 
 
-class DataTransformationConfig:...
+class DataTransformationConfig:
+    def __init__(self, training_pipeline_config: TrainingPipelineConfig) -> None:
+        self.data_transformation_dir= os.path.join(training_pipeline_config.artifact_dir, "data_transformation")
+        
 class ModelTrainerConfig:...
 class ModelEvaluationConfig:...
 class ModelPusherConfig:...
