@@ -100,12 +100,27 @@ class DataTransformation:
                                                                                   target_feature_test_array)
             logging.info(f'After resampling, testing set input shape:{input_feature_test_array.shape} Target shape: {target_feature_test_array.shape}')
 
+            #7 Concatenate train and test array data.
+            train_arr= np.c_[input_feature_train_array, target_feature_train_array]
+            test_arr= np.c_[input_feature_test_array, target_feature_test_array]
 
+            #8 Save train and test numpy array  in train and test paths.
+            utils.save_numpy_array_data(file_path= self.data_transformation_config.transformed_train_path, np_array= train_arr)
+            utils.save_numpy_array_data(file_path= self.data_transformation_config.transformed_train_path, np_array= train_arr)
 
+            #9 Serializing the transformation_pipeline.
+            utils.serialize(file_path= self.data_transformation_config.transform_object_path, obj= transformation_pipeline)
 
+            #10 Serializing the label encoder object.
+            utils.serialize(file_path= self.data_transformation_config.target_encoder, obj= label_encoder)
 
-
-
+            #11 Data Transformation artifact
+            data_transformation_artifact= artifact_entity.DataTransformationArtifact(transform_object_path= self.data_transformation_config.transform_object_path,
+                                                                                     transformed_train_path= self.data_transformation_config.transformed_train_path,
+                                                                                     transformed_test_path= self.data_transformation_config.transformed_test_path,
+                                                                                     target_encoder_path= self.data_transformation_config.target_encoder_path)
+            logging.info(f'Data transformation artifact: {data_transformation_artifact}')
+            return data_transformation_artifact
 
 
         except Exception as e:

@@ -44,9 +44,14 @@ def write_yaml_file(file_path, data:dict):
 def serialize(file_path:str, obj: object)->None:
     """Saves object to a file."""
     try:
-        pass
+        logging.log(f'Entered the searialize method of the main utils class.')
+        # make a directory if it doesn't exist.
+        os.makedirs(os.path.dirname(file_path), exist_ok= True)
 
+        with open (file_path, "wb") as file_obj:
+            dill.dump(obj, file_obj)
+        logging.log(f'Exited the searialize method of the main utils class.')
 
     except Exception as e:
         print(f'\nError: {e}')
-        SensorException(e, sys)
+        raise SensorException(e, sys)
