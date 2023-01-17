@@ -1,12 +1,15 @@
+import sys
+import os
+import yaml
+import dill
 import pandas as pd
 from sensor.logger import logging
 from sensor.exception import SensorException
 from sensor.config import mongo_client
-import sys
-import os
-import yaml
+
 
 def get_collection_as_dataframe(database_name:str, collection_name:str)->pd.DataFrame:
+    """Gets the data from a MongoDb collection as a pandas DataFrame."""
 
     try:
         logging.info(f'Fetching data from {database_name} pertaining to {collection_name}')
@@ -24,6 +27,7 @@ def get_collection_as_dataframe(database_name:str, collection_name:str)->pd.Data
         raise SensorException(e, sys)
 
 def write_yaml_file(file_path, data:dict):
+    """Writes data (in dictionary format) to a YAML file."""
     try:
         file_dir= os.path.dirname(file_path)
 
@@ -34,5 +38,15 @@ def write_yaml_file(file_path, data:dict):
 
 
     except Exception as e:
-        print('\nError:', e)
+        print(f'\nError: {e}')
         raise SensorException(e, sys)
+
+def serialize(file_path:str, obj: object)->None:
+    """Saves object to a file."""
+    try:
+        pass
+
+
+    except Exception as e:
+        print(f'\nError: {e}')
+        SensorException(e, sys)

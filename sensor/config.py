@@ -14,4 +14,6 @@ class EnvironmentVariable:
 
 env_var= EnvironmentVariable()
 mongo_client= pymongo.MongoClient(env_var.mongodb_url)
-
+TARGET_COLUMN= "class"
+TARGET_COLUMN_MAPPING= {"pos":1,
+                         "neg":0}

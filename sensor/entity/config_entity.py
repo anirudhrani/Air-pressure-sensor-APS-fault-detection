@@ -8,6 +8,9 @@ from sensor.logger import logging
 FILE_NAME= "sensor.csv"
 TRAIN_FILE_NAME= 'train.csv'
 TEST_FILE_NAME= 'test.csv'
+TRANSFORMER_OBJECT_FILE_NAME= "transformer.pkl"
+TARGET_ENCODER_OBJECT= "target_encoder.pkl"
+MODEL_FILE_NAME= 'model.pkl'
 
 class TrainingPipelineConfig:
 
@@ -17,7 +20,9 @@ class TrainingPipelineConfig:
             self.artifact_dir= os.path.join(os.getcwd(), "artifact", f"{datetime.now().strftime('%m%d%Y__%H%M%S')}")
         except Exception as e:
             raise SensorException(e, sys)
-            
+
+
+
 class DataIngestionConfig:
 
     def __init__(self, training_pipeline_config: TrainingPipelineConfig):
@@ -29,7 +34,7 @@ class DataIngestionConfig:
 
             # Creating data_ingestion directory inside the timestamp folder inside the artifact directory.
             self.data_ingestion_dir= os.path.join(training_pipeline_config.artifact_dir, "data_ingestion")
-            
+
             # Initializing feature store, train and test folder paths.
             self.feature_store_dir= os.path.join(self.data_ingestion_dir, "feature_store", FILE_NAME)
             self.train_file_path= os.path.join(self.data_ingestion_dir, "dataset", TRAIN_FILE_NAME)
@@ -50,11 +55,13 @@ class DataIngestionConfig:
 
 # Data Validation.
 class DataValidationConfig:
+    """This funtion initiates various config requirements such as db name, file paths, split size for
+        data validation."""
     def __init__(self, training_pipeline_config: TrainingPipelineConfig) :
-        # Creating data_ingestion directory inside the timestamp folder inside the artifact directory.
+        #1 Creating data_ingestion directory inside the timestamp folder inside the artifact directory.
         self.data_validation_dir= os.path.join(training_pipeline_config.artifact_dir, "data_validation")
 
-        # Creating Report file path in artifact folder.
+        #2 Creating Report file path in artifact folder.
         self.report_file_path= os.path.join(self.data_validation_dir,"report.yaml")
 
         self.missing_threshold:float= 0.2
@@ -62,10 +69,23 @@ class DataValidationConfig:
         self.base_data_path= os.path.join("aps_failure_training_set1.csv")
 
 
+# Data Transformation.
 class DataTransformationConfig:
+    """This funtion initiates various config requirements such as db name, file paths, split size for
+       data transformation."""
     def __init__(self, training_pipeline_config: TrainingPipelineConfig) -> None:
+
+        #1 Create a folder for data transformation in the artifact directory.
         self.data_transformation_dir= os.path.join(training_pipeline_config.artifact_dir, "data_transformation")
-        
+        #2 Create a transform pickle file.
+        self.transform_object_path= os.path.join(self.data_transformation_dir,"transformer", "transform.pkl")
+        #3 Create the transformed training file name.
+        self.transformed_train_path= os.path.join(self.data_transformation_dir, "transformed", TRAIN_FILE_NAME)
+        #4 Create the transformed testing file name.
+        self.transformed_test_path= os.path.join(self.data_transformation_dir, "transformed", TEST_FILE_NAME)
+        #5
+        self.target_encoder= os.path.join(self.data_transformation_dir,"" )
+
 class ModelTrainerConfig:...
 class ModelEvaluationConfig:...
 class ModelPusherConfig:...
