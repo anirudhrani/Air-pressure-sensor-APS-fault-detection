@@ -22,12 +22,13 @@ class DataTransformation:
                 data_transformation_config: config_entity.DataTransformationConfig,
                 data_ingestion_artifact: artifact_entity.DataIngestionArtifact) -> None:
         try:
+            logging.info(f"{'>>>'*20} Data Transformation.{'<<<'*20}")
             self.data_transformation_config= data_transformation_config
             self.data_ingestion_artifact= data_ingestion_artifact
 
 
         except Exception as e:
-            print(f'Error : {e}')
+            print(f'\nError : {e}')
             raise SensorException(e, sys)
 
 
@@ -36,30 +37,21 @@ class DataTransformation:
     def get_transformer_object(cls)->Pipeline:
 
         try:
-
+            logging.info(f"Entered get_transformer_object.")
             simple_imputer= SimpleImputer(strategy= "constant", fill_value= 0)
             robust_scaler= RobustScaler()
             pipeline= Pipeline(steps= [('Imputer', simple_imputer), ('RobustScaler', robust_scaler)])
-
+            logging.info(f'Pipeline created.')
             return pipeline
         except Exception as e:
-            print(f'Error: {e}')
+            print(f'\nError: {e}')
             raise SensorException(e, sys)
-
-
-
-    def column_encoder(target_feature):
-        try:
-            pass
-        except Exception as e:
-            print(f'Error: {e}')
-            raise SensorException(e, sys)
-
 
 
 
     def initiate_data_transformation(self)-> artifact_entity.DataTransformationArtifact:
         try:
+            
             #1 Read train data and test data.
             train_df= pd.read_csv(self.data_ingestion_artifact.train_file_path)
             test_df= pd.read_csv(self.data_ingestion_artifact.test_file_path)
@@ -82,7 +74,7 @@ class DataTransformation:
             target_feature_test_array= label_encoder.transform(target_feature_test_df)
 
             #5  Prepare input feature data. [x_train and x_test]
-            transformation_pipeline= DataTransformation.get_transformer_object(input_feature_train_df)
+            transformation_pipeline= DataTransformation.get_transformer_object()
             transformation_pipeline.fit(input_feature_train_df)
 
             input_feature_train_array= transformation_pipeline.transform(input_feature_train_df)
@@ -124,5 +116,5 @@ class DataTransformation:
 
 
         except Exception as e:
-            print(f'Error :{e}')
+            print(f'\nError : {e}')
             raise SensorException(e, sys)

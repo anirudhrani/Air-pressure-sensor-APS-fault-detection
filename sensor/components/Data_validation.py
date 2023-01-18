@@ -63,7 +63,7 @@ class DataValidation:
                 same_distribution= ks_2samp(base_data, present_data)
 
                 if same_distribution.pvalue>0.05: # Null Hypothesis is accepted
-                    logging.info(f"Null hypotheis is treu i.e. data drift not detected.")
+                    logging.info(f"Null hypotheis is true i.e. data drift not detected.")
                     drift_report[base_column]= { "pvalue": same_distribution.pvalue,
                                                  "Data Drift Detected": False}
                 else: # Alternate Hypothesis is accepted.
@@ -134,6 +134,13 @@ class DataValidation:
             train_df= self.drop_columns_with_missing_vals(df= train_df, report_key_name="missing_data_in_train_dataset")
             test_df= self.drop_columns_with_missing_vals(df= test_df, report_key_name="missing_data_in_test_dataset")
 
+            #4.5 Convert dtype
+            
+            exclude_columns = ["class"]
+            base_df = utils.dtype_converter(df=base_df, exclude_features=exclude_columns)
+            train_df = utils.dtype_converter(df=train_df, exclude_features=exclude_columns)
+            test_df = utils.dtype_converter(df=test_df, exclude_features=exclude_columns)
+            logging.info(f"CONVERTED DATA TYPE OF COLUMNS.")
             #5 Check for REQUIRED COLUMNS.
             train_df_column_status= self.required_columns_check(base_df= base_df,
                                                                 present_df= train_df,
@@ -154,7 +161,8 @@ class DataValidation:
                 self.data_drift(base_df= base_df,
                                 present_df= test_df,
                                 report_key_name="data_drift_in_test_dataset")
-
+            logging.info(f"Preparing Data Validation Artifact.")
+            
             #7 Write to validation report.
             utils.write_yaml_file(file_path= self.data_validation_config.report_file_path, data= self.validation_error)
             logging.info(f'Report.yaml generated.')

@@ -13,6 +13,8 @@ TARGET_ENCODER_OBJECT= "target_encoder.pkl"
 MODEL_FILE_NAME= 'model.pkl'
 EXPECTED_SCORE= 0.7
 MODEL_OVERFITTING_THRESHOLD= 0.1
+TARGET_COLUMN_NAME= 'class'
+
 
 class TrainingPipelineConfig:
     """Create a new directory named artifact under which a timestamp folder will be created."""

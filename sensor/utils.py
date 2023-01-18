@@ -30,11 +30,15 @@ def get_collection_as_dataframe(database_name:str, collection_name:str)->pd.Data
 def write_yaml_file(file_path, data:dict):
     """Writes data (in dictionary format) to a YAML file."""
     try:
+        #1 Just in case if the data_validation folder is not created in artifact directory then this creates one.
         file_dir= os.path.dirname(file_path)
-
         os.makedirs(file_dir, exist_ok= True)
+        
+        #file_dir ->  D:\aps_fault_detection_main\artifact\01172023__231419\data_validation
+        #file_path -> D:\aps_fault_detection_main\artifact\01172023__231419\data_validation\report.yaml
 
-        with open (file_dir, "w") as file_writer:
+        #2 Dump the data in to the yaml file.
+        with open (file_path, "w") as file_writer:
             yaml.dump(data, file_writer)
 
 
@@ -66,7 +70,7 @@ def save_numpy_array_data(file_path: str, np_array: np.array):
             # np.save -> SAVES AN ARRAY TO A NUMPY BINARY FILE (.npy).
             np.save(file_obj, np_array)
     except Exception as e:
-        print(f'Error: {e}')
+        print(f'\nError: {e}')
         raise SensorException(e, sys)\
 
 def load_numpy_array_data(file_path: str, np_array: np.array)-> np.array:
@@ -78,5 +82,18 @@ def load_numpy_array_data(file_path: str, np_array: np.array)-> np.array:
             return np.load(file_obj)
 
     except Exception as e:
-        print(f'Error: {e}')
+        print(f'\nError: {e}')
         raise SensorException(e, sys)\
+
+def dtype_converter(df: pd.DataFrame, exclude_features: list)-> pd.DataFrame:
+    """Converts the data type of a column to float."""
+    try:
+        for column_name in df.columns:
+            if column_name not in exclude_features:
+                # df[column_name] = df[column_name].astype('float')
+                df[column_name]= pd.to_numeric(df[column_name], downcast="float", errors='coerce')
+        return df
+
+    except Exception as e:
+        print(f"\nError: {e}")
+        raise SensorException(e, sys)
