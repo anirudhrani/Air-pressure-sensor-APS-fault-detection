@@ -3,6 +3,7 @@ import os
 import yaml
 import dill
 import pandas as pd
+import numpy as np
 from sensor.logger import logging
 from sensor.exception import SensorException
 from sensor.config import mongo_client
@@ -55,3 +56,27 @@ def serialize(file_path:str, obj: object)->None:
     except Exception as e:
         print(f'\nError: {e}')
         raise SensorException(e, sys)
+
+def save_numpy_array_data(file_path: str, np_array: np.array):
+    """SAVES AN ARRAY TO A (.npy) NUMPY BINARY FILE. """
+    try:
+        dir_path= os.path.dirname(file_path)
+        os.makedirs(dir_path, exist_ok= True)
+        with open(file_path, "wb") as file_obj:
+            # np.save -> SAVES AN ARRAY TO A NUMPY BINARY FILE (.npy).
+            np.save(file_obj, np_array)
+    except Exception as e:
+        print(f'Error: {e}')
+        raise SensorException(e, sys)\
+
+def load_numpy_array_data(file_path: str, np_array: np.array)-> np.array:
+    """LOADS A (.npy) NUMPY BINARY FILE. """
+    try:
+
+        with open(file_path, "wb") as file_obj:
+            # np.save -> SAVES AN ARRAY TO A NUMPY BINARY FILE (.npy).
+            return np.load(file_obj)
+
+    except Exception as e:
+        print(f'Error: {e}')
+        raise SensorException(e, sys)\

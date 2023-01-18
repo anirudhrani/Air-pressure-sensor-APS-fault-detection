@@ -106,7 +106,7 @@ class DataTransformation:
 
             #8 Save train and test numpy array  in train and test paths.
             utils.save_numpy_array_data(file_path= self.data_transformation_config.transformed_train_path, np_array= train_arr)
-            utils.save_numpy_array_data(file_path= self.data_transformation_config.transformed_train_path, np_array= train_arr)
+            utils.save_numpy_array_data(file_path= self.data_transformation_config.transformed_test_path, np_array= test_arr)
 
             #9 Serializing the transformation_pipeline.
             utils.serialize(file_path= self.data_transformation_config.transform_object_path, obj= transformation_pipeline)
@@ -118,7 +118,7 @@ class DataTransformation:
             data_transformation_artifact= artifact_entity.DataTransformationArtifact(transform_object_path= self.data_transformation_config.transform_object_path,
                                                                                      transformed_train_path= self.data_transformation_config.transformed_train_path,
                                                                                      transformed_test_path= self.data_transformation_config.transformed_test_path,
-                                                                                     target_encoder_path= self.data_transformation_config.target_encoder_path)
+                                                                                     target_encoder_path= self.data_transformation_config.target_encoder)
             logging.info(f'Data transformation artifact: {data_transformation_artifact}')
             return data_transformation_artifact
 

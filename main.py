@@ -1,11 +1,12 @@
 import sys
 from sensor.logger import logging
 from sensor.exception import SensorException
-from sensor.entity import config_entity
-from sensor.components import Data_Ingestion, Data_validation
+from sensor.entity import config_entity, artifact_entity
+from sensor.components import Data_Ingestion, Data_validation, Model_trainer
 
 if __name__== '__main__':
     try:
+        # Testing data ingestion.
         print('\nInitiating Data Ingestion.\n')
         training_pipeline_config= config_entity.TrainingPipelineConfig()
         data_ingestion_config= config_entity.DataIngestionConfig(training_pipeline_config= training_pipeline_config)
@@ -18,12 +19,19 @@ if __name__== '__main__':
         data_ingestion_artifact= data_ingestion.initiate_data_ingestion()
         print('Data Ingestion completed.')
 
+
+        # Testing Data Validation
         print('\nInitiating Data Validation.\n')
         data_validation_config= config_entity.DataValidationConfig(training_pipeline_config= training_pipeline_config)
         data_validation= Data_validation.DataValidation(data_validation_config=data_validation_config, data_ingestion_artifact= data_ingestion_artifact)
         data_validation_artifact=  data_validation.initiate_data_validation()
         print('\nData Validation Completed.\n')
         # print(data_validation_artifact)
+
+
+
+        # Testing model trainer.
+
     except Exception as e:
         print('Error: ',e)
         SensorException(e, sys)
