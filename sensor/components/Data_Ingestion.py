@@ -52,7 +52,7 @@ class DataIngestion:
 
         # 5. Train test split.
             train_df, test_df= train_test_split(df, test_size= self.data_ingestion_config.test_size)
-            logging.info(f'Finished train test split. Train size= {train_df.shape} Test size= {test_df.shape}')
+            logging.info(f'Finished train test split. Train size= {train_df.shape} | Train Null values: {train_df.isna().sum()}| Test size= {test_df.shape}| Test Null values: {test_df.isna().sum()} ')
 
             # Creating the directory if it doesnot exist.
             dataset_dir= os.path.dirname(self.data_ingestion_config.train_file_path)

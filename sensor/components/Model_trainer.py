@@ -85,6 +85,7 @@ class ModelTrainer:
             
             #7 Serialize the model.
             utils.serialize(file_path= self.model_trainer_config.model_path, obj= model)
+            logging.info(f"Serialized the model at location: {self.model_trainer_config.model_path}")
 
             #8 Prepare Artifact.
             

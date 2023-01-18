@@ -15,7 +15,6 @@ EXPECTED_SCORE= 0.7
 MODEL_OVERFITTING_THRESHOLD= 0.1
 TARGET_COLUMN_NAME= 'class'
 
-
 class TrainingPipelineConfig:
     """Create a new directory named artifact under which a timestamp folder will be created."""
     def __init__(self):
@@ -84,11 +83,11 @@ class DataTransformationConfig:
         #2 Create a transform pickle file.
         self.transform_object_path= os.path.join(self.data_transformation_dir,"transformer", TRANSFORMER_OBJECT_FILE_NAME)
         #3 Create the transformed training file name.
-        self.transformed_train_path= os.path.join(self.data_transformation_dir, "transformed", TRAIN_FILE_NAME)
+        self.transformed_train_path= os.path.join(self.data_transformation_dir, "transformed", TRAIN_FILE_NAME.replace('csv', 'npz'))
         #4 Create the transformed testing file name.
-        self.transformed_test_path= os.path.join(self.data_transformation_dir, "transformed", TEST_FILE_NAME)
+        self.transformed_test_path= os.path.join(self.data_transformation_dir, "transformed", TEST_FILE_NAME.replace('csv', 'npz'))
         #5
-        self.target_encoder= os.path.join(self.data_transformation_dir,TARGET_ENCODER_OBJECT )
+        self.target_encoder= os.path.join(self.data_transformation_dir,"target_encoder", TARGET_ENCODER_OBJECT )
 
 class ModelTrainerConfig:
     def __init__(self, training_pipeline_config: TrainingPipelineConfig) -> None:
