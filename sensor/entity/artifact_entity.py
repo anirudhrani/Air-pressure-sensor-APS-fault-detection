@@ -22,6 +22,7 @@ class ModelTrainerArtifact:
     model_path:str
     f1_train_score:str
     f1_test_score:str
-    
-class ModelEvaluationArtifact:...
+@dataclass
+class ModelEvaluationArtifact:
+    pass
 class ModelPusherArtifact:...

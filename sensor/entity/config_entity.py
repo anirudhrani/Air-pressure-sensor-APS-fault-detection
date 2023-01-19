@@ -98,5 +98,7 @@ class ModelTrainerConfig:
         self.expected_score= EXPECTED_SCORE
         self.overfitting_threshold= MODEL_OVERFITTING_THRESHOLD
 
-class ModelEvaluationConfig:...
+class ModelEvaluationConfig:
+    def __init__(self, training_pipeline_config: TrainingPipelineConfig)-> None:
+        self.model_evaluation_dir= os.path.join(training_pipeline_config.artifact_dir, "model_evaluation")
 class ModelPusherConfig:...
