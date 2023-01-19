@@ -84,7 +84,7 @@ class DataTransformation:
         #5  Prepare input feature data. [x_train and x_test]
             logging.info(f"Sending input data into the data transformation pipeline.")
             transformation_pipeline= DataTransformation.get_transformer_object()
-            
+
             transformation_pipeline.fit(input_feature_train_df)
 
             input_feature_train_array= transformation_pipeline.transform(input_feature_train_df)
