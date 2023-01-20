@@ -68,31 +68,33 @@ class DataTransformation:
         #3 Input feature for train and test data
             input_feature_train_df= train_df.drop(TARGET_COLUMN, axis=1)
             input_feature_test_df= test_df.drop(TARGET_COLUMN, axis=1)
+
             logging.info(f"Prepared input for train and test sets.")
 
         #4 LABEL ENCODING on the target variable.
             label_encoder= LabelEncoder()
                 # Fit
-            label_encoder.fit(target_feature_train_df)
+            label_encoder.fit(target_feature_train_df)           
             logging.info(f"Fitting the label encoder.")
 
                 # Tranform.
             target_feature_train_array= label_encoder.transform(target_feature_train_df)
             target_feature_test_array= label_encoder.transform(target_feature_test_df)
+
             logging.info(f"Label encoded the target features in both train and test sets.")
 
         #5  Prepare input feature data. [x_train and x_test]
             logging.info(f"Sending input data into the data transformation pipeline.")
+            
             transformation_pipeline= DataTransformation.get_transformer_object()
-
             transformation_pipeline.fit(input_feature_train_df)
-
+            #print(f"\ntransformation_pipeline : {transformation_pipeline}")
             input_feature_train_array= transformation_pipeline.transform(input_feature_train_df)
             input_feature_test_array= transformation_pipeline.transform(input_feature_test_df)
 
         #6 Dealing with imbalanced data.
             logging.info(f"Performing SMOTE to deal with the imbalanced data.")
-            smt= SMOTETomek(sampling_strategy= 'minority')
+            smt= SMOTETomek(random_state=42 )
             logging.info(f'Before resampling, training set input shape:{input_feature_train_array.shape} Target shape: {target_feature_train_array.shape}')
             input_feature_train_array, target_feature_train_array= smt.fit_resample(input_feature_train_array,
                                                                                      target_feature_train_array)

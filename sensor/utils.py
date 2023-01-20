@@ -21,7 +21,7 @@ def get_collection_as_dataframe(database_name:str, collection_name:str)->pd.Data
         logging.info('Checking for the "_id" column in the data frame')
         if '_id' in df.columns:
             logging.info('"_id" column found. Hence removing it.')
-            df.drop(columns= '_id')
+            df.drop(columns= ['_id'], inplace= True)
         return df
     except Exception as e:
         print('\nError:', e)
@@ -49,13 +49,13 @@ def write_yaml_file(file_path, data:dict):
 def serialize(file_path:str, obj: object)->None:
     """Saves object to a file."""
     try:
-        logging.log(f'Entered the searialize method of the main utils class.')
+        logging.info(f'Entered the searialize method of the main utils class.')
         # make a directory if it doesn't exist.
         os.makedirs(os.path.dirname(file_path), exist_ok= True)
 
         with open (file_path, "wb") as file_obj:
             dill.dump(obj, file_obj)
-        logging.log(f'Exited the searialize method of the main utils class.')
+        logging.info(f'Exited the searialize method of the main utils class.')
 
     except Exception as e:
         print(f'\nError: {e}')
@@ -73,7 +73,7 @@ def save_numpy_array_data(file_path: str, np_array: np.array):
         print(f'\nError: {e}')
         raise SensorException(e, sys)\
 
-def load_numpy_array_data(file_path: str, np_array: np.array)-> np.array:
+def load_numpy_array_data(file_path: str)-> np.array:
     """LOADS A (.npy) NUMPY BINARY FILE. """
     try:
 
