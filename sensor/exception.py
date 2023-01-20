@@ -17,7 +17,7 @@ def error_message_detail(error, error_detail:sys):
         
         
         # Printing the error message.
-        error_message= "Error occured in the script located at : [{0}] in line number [{1}] with error message [{2}]".format(
+        error_message= "Error occured in the script located at : [{0}]\nLine Number : [{1}]\nError Message : [{2}]".format(
         file_path, exc_tb.tb_lineno, str(error))
         # tb_lineno -> Gives the line no.where the exception occurred.
         return error_message
