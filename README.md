@@ -2,9 +2,9 @@
 Designed and implemented an end-to-end scalable and deployable pipeline which can ingest, validate, transform data followed by model training and evaluation stages for identifying faulty sensor components in the air pressure systems in automobiles.
 
 ## Key Capabilities.
--> Automated data drift detection.
--> Automated the process of dealing imbalanced data.
--> Automated statistical analysis reports creation in various stages of pipeline artifacts.
+-> Automated data drift detection.  
+-> Automated the process of dealing imbalanced data.  
+-> Automated statistical analysis reports creation in various stages of pipeline artifacts.  
 
 # File Structure
 ```
