@@ -62,8 +62,10 @@ class ModelTrainer:
 
             logging.info(f"Trained the model")
             #4 Compute f1 score for train and test sets.
-            y_pred_train= model.predict(x= x_train, y= y_train)
-            y_pred_test= model.predict(x= x_test, y= y_test)
+            
+            
+            y_pred_train= model.predict( X=x_train)
+            y_pred_test= model.predict( X=x_test)
             logging.info(f"Predictions made and saved.")
 
             f1_train_score= f1_score(y_true= y_train, y_pred= y_pred_train)

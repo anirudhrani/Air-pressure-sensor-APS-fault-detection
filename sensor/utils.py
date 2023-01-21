@@ -77,7 +77,7 @@ def load_numpy_array_data(file_path: str)-> np.array:
     """LOADS A (.npy) NUMPY BINARY FILE. """
     try:
 
-        with open(file_path, "wb") as file_obj:
+        with open(file_path, "rb") as file_obj:
             # np.save -> SAVES AN ARRAY TO A NUMPY BINARY FILE (.npy).
             return np.load(file_obj)
 
