@@ -85,11 +85,11 @@ def load_numpy_array_data(file_path: str)-> np.array:
         print(f'\nError: {e}')
         raise SensorException(e, sys)\
 
-def dtype_converter(df: pd.DataFrame, exclude_features: list)-> pd.DataFrame:
+def dtype_converter(df: pd.DataFrame, except_columns: list)-> pd.DataFrame:
     """Converts the data type of a column to float."""
     try:
         for column_name in df.columns:
-            if column_name not in exclude_features:
+            if column_name not in except_columns:
                 # df[column_name] = df[column_name].astype('float')
                 df[column_name]= pd.to_numeric(df[column_name], downcast="float", errors='coerce')
         return df

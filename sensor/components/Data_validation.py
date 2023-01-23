@@ -136,11 +136,12 @@ class DataValidation:
 
             #4.5 Convert dtype
             
-            exclude_columns = ["class"]
-            base_df = utils.dtype_converter(df=base_df, exclude_features=exclude_columns)
-            train_df = utils.dtype_converter(df=train_df, exclude_features=exclude_columns)
-            test_df = utils.dtype_converter(df=test_df, exclude_features=exclude_columns)
+            except_columns = ["class"]
+            base_df = utils.dtype_converter(df=base_df, except_columns= except_columns)
+            train_df = utils.dtype_converter(df=train_df, except_columns= except_columns)
+            test_df = utils.dtype_converter(df=test_df, except_columns= except_columns)
             logging.info(f"CONVERTED DATA TYPE OF COLUMNS.")
+            
             #5 Check for REQUIRED COLUMNS.
             train_df_column_status= self.required_columns_check(base_df= base_df,
                                                                 present_df= train_df,
