@@ -54,12 +54,30 @@ def serialize(file_path:str, obj: object)->None:
         os.makedirs(os.path.dirname(file_path), exist_ok= True)
 
         with open (file_path, "wb") as file_obj:
-            dill.dump(obj, file_obj)
+            return dill.dump(obj, file_obj)
         logging.info(f'Exited the searialize method of the main utils class.')
 
     except Exception as e:
         print(f'\nError: {e}')
         raise SensorException(e, sys)
+
+
+def deserialize(file_path:str)->None:
+    """Loads object from a file."""
+    try:
+        logging.info(f'Entered the searialize method of the main utils class.')
+        # make a directory if it doesn't exist.
+        if not os.path.exists(file_path):
+            raise Exception(f"The file at location {file_path} does'nt exist.")
+
+        with open (file_path, "rb") as file_obj:
+            return dill.load(file_obj)
+        logging.info(f'Exited the searialize method of the main utils class.')
+
+    except Exception as e:
+        print(f'\nError: {e}')
+        raise SensorException(e, sys)
+
 
 def save_numpy_array_data(file_path: str, np_array: np.array):
     """SAVES AN ARRAY TO A (.npy) NUMPY BINARY FILE. """

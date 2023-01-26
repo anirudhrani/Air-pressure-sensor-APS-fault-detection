@@ -37,19 +37,32 @@ class ModelResolver:
     def get_latest_transformer_path(self):
         try:
             latest_dir= self.get_latest_dir_path()
-            return  os.path.join(latest_dir,)
+            return  os.path.join(latest_dir, TRANSFORMER_OBJECT_FILE_NAME)
         except Exception as e:
             raise SensorException(e, sys)
     
     def get_latest_target_encoder_path(self):
         try:
+            latest_dir = self.get_latest_dir_path()
+            if latest_dir is None:
+                raise Exception(f"Target encoder is not available")
+            return os.path.join(latest_dir,self.target_encoder_dir_name,TARGET_ENCODER_OBJECT)
+        except Exception as e:
+            raise SensorException(e, sys)
+
+    def get_latest_saved_dir_path(self):
+        try:
             pass
         except Exception as e:
             raise SensorException(e, sys)
 
+    def get_latest_target_encoder_path(self):
+        try:
+            pass
+        except Exception as e:
+            raise SensorException(e, sys)    
 
 
 
-class Predictor:
 
-    pass
+
