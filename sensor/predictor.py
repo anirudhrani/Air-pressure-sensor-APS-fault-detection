@@ -5,7 +5,8 @@ from glob import glob
 from sensor.exception import SensorException
 from sensor.entity.config_entity import MODEL_FILE_NAME, TRANSFORMER_OBJECT_FILE_NAME, TARGET_ENCODER_OBJECT
 
-class ModelResolver:
+
+class ModelLocator:
 
     def __init__(self, model_registry: str = "saved_models",
                  transformer_dir_name= "transformer",
@@ -43,6 +44,7 @@ class ModelResolver:
     
     def get_latest_target_encoder_path(self):
         try:
+
             latest_dir = self.get_latest_dir_path()
             if latest_dir is None:
                 raise Exception(f"Target encoder is not available")
@@ -52,15 +54,34 @@ class ModelResolver:
 
     def get_latest_saved_dir_path(self):
         try:
-            pass
+            latest_dir = self.get_latest_dir_path()
+            if latest_dir==None:
+                return os.path.join(self.model_registry,f"{0}")
+            latest_dir_num = int(os.path.basename(self.get_latest_dir_path()))
+            return os.path.join(self.model_registry,f"{latest_dir_num+1}")
         except Exception as e:
             raise SensorException(e, sys)
 
-    def get_latest_target_encoder_path(self):
+    def get_latest_save_model_path(self):
+            try:
+                latest_dir = self.get_latest_saved_dir_path()
+                return os.path.join(latest_dir,self.model_dir_name,MODEL_FILE_NAME)
+            except Exception as e:
+                raise e
+
+    def get_latest_save_transformer_path(self):
         try:
-            pass
+            latest_dir = self.get_latest_saved_dir_path()
+            return os.path.join(latest_dir,self.transformer_dir_name,TRANSFORMER_OBJECT_FILE_NAME)
         except Exception as e:
-            raise SensorException(e, sys)    
+            raise e
+
+    def get_latest_save_target_encoder_path(self):
+        try:
+            latest_dir = self.get_latest_saved_dir_path()
+            return os.path.join(latest_dir,self.target_encoder_dir_name,TARGET_ENCODER_OBJECT)
+        except Exception as e:
+            raise e
 
 
 
