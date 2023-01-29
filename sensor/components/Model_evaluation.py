@@ -40,10 +40,10 @@ class ModelEvaluation:
 
             latest_dir_path= self.model_locator.get_latest_dir_path()
             if latest_dir_path==None:
-                model_eval_artifact = artifact_entity.ModelEvaluationArtifact(accepted_the_model=True,
+                model_evaluation_artifact = artifact_entity.ModelEvaluationArtifact(accepted_the_model=True,
                 improved_accuracy=None)
-                logging.info(f"Model evaluation artifact: {model_eval_artifact}")
-                return model_eval_artifact
+                logging.info(f"Model evaluation artifact: {model_evaluation_artifact}")
+                return model_evaluation_artifact
             
             #2 Find locations of PREVIOSULY TRAINED data transformer, model and target encoder. 
             transformer_path= self.model_locator.get_latest_transformer_path()
@@ -62,10 +62,19 @@ class ModelEvaluation:
 
             #5 Load test data
             test_df= pd.read_csv(self.data_ingestion_artifact.test_file_path)
-            #6 Transform the data and perform train test split
+            target_df= test_df[TARGET_COLUMN]
+            y_true= target_encoder.transform(target_df)
+
+            #6 Compute the accuraccy using previously trained model.
+            input_arr= transformer.transform(test_df)
+            y_pred= model.predict(input_arr)
+            print(f"Predictions made by the previous model: {target_encoder.inverse_transform(y_pred[:5])}")
+
             #7 Compare the models
             
 
+            model_evaluation_artifact= artifact_entity.ModelEvaluationArtifact()
+            return model_evaluation_artifact
         except Exception as e:
             print(f"\nError : {e}")
             raise SensorException(e, sys)
