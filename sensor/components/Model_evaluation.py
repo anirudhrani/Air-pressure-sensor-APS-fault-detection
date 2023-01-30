@@ -50,7 +50,7 @@ class ModelEvaluation:
             model_path= self.model_locator.get_latest_model_path()
             target_encoder_path= self.model_locator.get_latest_target_encoder_path
 
-            #3 De-serialize the binaries of PREVIOSULY TRAINED transformer, model and target encoder.
+            #3 De-serialize the binaries of PREVIOSULY TRAINED transformer, model and target encoder. 
             transformer = utils.deserialize(file_path= transformer_path)
             model= utils.deserialize(file_path= model_path)
             target_encoder=  utils.deserialize(file_path= target_encoder_path)
