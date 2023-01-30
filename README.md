@@ -12,30 +12,30 @@ Air pressure sensor fault detection
     |
     |
     |-- DATA VISUALIZATION -- |
-    |                         |-- Data_viz.ipynb
+    |                         |-- Data_viz.ipynb              # Data Visualization and workflow outline.
     |
     |-- SENSOR -- |
     |             |-- init.py
-    |             |-- config.py
-    |             |-- exception.py
-    |             |-- logger.py
-    |             |-- predictor.py
-    |             |-- utils.py
+    |             |-- config.py                               # Includes access key to env variables.
+    |             |-- exception.py                            # Traceback and exception reporting
+    |             |-- logger.py                               # Logging module.
+    |             |-- predictor.py                            # Model and binary file locator. 
+    |             |-- utils.py                                # Contains widely used helper functions.
     |             |
     |             |-- COMPONENTS --|
     |             |                |
     |             |                |-- init.py
-    |             |                |-- Data_Ingestion.py
-    |             |                |-- Data_Transformation.py
-    |             |                |-- Data_validation.py
-    |             |                |-- Model_evaluation.py
-    |             |                |-- Model_pusher.py
-    |             |                |-- Model_trainer.py
+    |             |                |-- Data_Ingestion.py      # DATA COLLECTION. 
+    |             |                |-- Data_Transformation.py # DATA PRE-PROCESSING. 
+    |             |                |-- Data_validation.py     # VALIDATE DATA FOR BEFORE PREPROCESSING.
+    |             |                |-- Model_evaluation.py    # EVALUATE MODELS.
+    |             |                |-- Model_pusher.py        # DEPLOYMENT.
+    |             |                |-- Model_trainer.py       # TRAIN DATA ON A MODEL.
     |             |
     |             |-- ENTITY --|
     |             |            |-- init.py
-    |             |            |-- artifact_entity.py
-    |             |            |-- config_entity.py
+    |             |            |-- artifact_entity.py         # Output of a DSLC component (dataclass).
+    |             |            |-- config_entity.py           # Input of a DSLC component.
     |             |
     |             |-- PIPELINE --|
     |                            |-- init.py
@@ -43,13 +43,13 @@ Air pressure sensor fault detection
     |                            |-- batch_prediction.py
     |
     |-- .gitignore
-    |-- Dataset
-    |-- data_dump.py
-    |-- logger_and_exception_tester.py
-    |-- main.py
-    |-- README.md
-    |-- requirements.txt
-    |-- setup.py
+    |-- Dataset                                               # .csv file.
+    |-- data_dump.py                                          # Dumps data (.csv) to database.
+    |-- logger_and_exception_tester.py                        # Testig logger and exception module.
+    |-- main.py                                               # initiation of the project.
+    |-- README.md                                             # About the project.
+    |-- requirements.txt                                      # Required libraries for the project.
+    |-- setup.py                                              # Package creator / requirement getter.
 ```
 
 
