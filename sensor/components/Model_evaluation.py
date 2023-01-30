@@ -27,7 +27,6 @@ class ModelEvaluation:
             self.data_ingestion_artifact= data_ingestion_artifact
             self.data_transformation_artifact= data_transformation_artifact
             self.model_trainer_artifact= model_trainer_artifact
-
             self.model_locator= ModelLocator
         except Exception as e:
             print(f"\nError : {e}")
@@ -37,30 +36,36 @@ class ModelEvaluation:
     def initiate_model_evaluation(self):
         try:
             #1 
+            logging.info(f"Initiated model evaluation class.")
 
             latest_dir_path= self.model_locator.get_latest_dir_path()
             if latest_dir_path==None:
-                model_evaluation_artifact = artifact_entity.ModelEvaluationArtifact(accepted_the_model=True,
+                model_evaluation_artifact = artifact_entity.ModelEvaluationArtifact(model_accepted==True,
                 improved_accuracy=None)
                 logging.info(f"Model evaluation artifact: {model_evaluation_artifact}")
                 return model_evaluation_artifact
             
             #2 Find locations of PREVIOSULY TRAINED data transformer, model and target encoder. 
+            logging.info(f"Locating PREVIOUSLY TRAINED MODEL, TRANSFORMER AND ENCODER paths.")
             transformer_path= self.model_locator.get_latest_transformer_path()
             model_path= self.model_locator.get_latest_model_path()
             target_encoder_path= self.model_locator.get_latest_target_encoder_path
 
             #3 De-serialize the binaries of PREVIOSULY TRAINED transformer, model and target encoder. 
+            logging.info(f"De-serializing the binaries of transformer, model and encoder for the PREVIOUSLY TRAINED MODEL.")
             transformer = utils.deserialize(file_path= transformer_path)
             model= utils.deserialize(file_path= model_path)
             target_encoder=  utils.deserialize(file_path= target_encoder_path)
 
             #4 De-serialize the binaries of RECENTLY TRAINED transformer, model and target encoder.
+            logging.info(f"De-serializing the binaries of transformer, model and encoder for the RECENTLY TRAINED MODEL.")
             latest_transformer= utils.deserialize(file_path= self.data_transformation_artifact.transform_object_path)
             latest_model= utils.deserialize(file_path= self.model_trainer_artifact.model_path)
             latest_target_encoder= utils.deserialize(file_path= self.data_transformation_artifact.target_encoder_path)
 
+# PREVIOUSLY TRAINED MODEL
             #5 Load test data
+            logging.info(f"Loading test data and computing the f1 score of the previously trained model.")
             test_df= pd.read_csv(self.data_ingestion_artifact.test_file_path)
             target_df= test_df[TARGET_COLUMN]
             y_true= target_encoder.transform(target_df)
@@ -70,10 +75,23 @@ class ModelEvaluation:
             y_pred= model.predict(input_arr)
             print(f"Predictions made by the previous model: {target_encoder.inverse_transform(y_pred[:5])}")
 
-            #7 Compare the models
-            
+                # F1 score
+            previous_model_score= f1_score(y_true= y_true, y_pred= y_pred)
+            logging.info(f"PREVIOUS MODEL score : {previous_model_score}")
+# RECENTLY TRAINED MODEL
+            input_arr= latest_transformer.transform(test_df)
+            y_pred= latest_model.predict(input_arr)
+            print(f"Predictions made by the previous model: {latest_target_encoder.inverse_transform(y_pred[:5])}")
+            latest_model_score = f1_score(y_true=y_true, y_pred=y_pred)
+            logging.info(f"CURRENT MODEL score : {latest_model_score}")
 
-            model_evaluation_artifact= artifact_entity.ModelEvaluationArtifact()
+            #7 Compare the models
+            if latest_model_score<=previous_model_score:
+                logging.info(f"Recently trained model is not better than previous model")
+                raise Exception("Recently trained model is not better than previous model")
+
+            model_evaluation_artifact= artifact_entity.ModelEvaluationArtifact(model_accepted=True,
+                                                                                improved_accuracy= latest_model_score - previous_model_score)
             return model_evaluation_artifact
         except Exception as e:
             print(f"\nError : {e}")

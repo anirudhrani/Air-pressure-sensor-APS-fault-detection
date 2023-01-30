@@ -101,5 +101,16 @@ class ModelTrainerConfig:
 class ModelEvaluationConfig:
     def __init__(self, training_pipeline_config: TrainingPipelineConfig)-> None:
         self.model_evaluation_dir= os.path.join(training_pipeline_config.artifact_dir, "model_evaluation")
-        
-class ModelPusherConfig:...
+
+
+class ModelPusherConfig:
+     def __init__(self, training_pipeline_config: TrainingPipelineConfig)-> None:
+
+        # Create a file called model pusher in artifact directory.
+        self.push_model_to_artifact= os.path.join(training_pipeline_config.artifact_dir, "model_pusher")
+
+        # Create a file on the base level called saved_models.
+        self.push_model_dir= os.path.join("saved_models")
+
+        # Create a similar file named saved_models inside the artifact.
+        self.pusher_model_dir= os.path.join(self.push_model_to_artifact, "saved_models")
