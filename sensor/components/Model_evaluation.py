@@ -27,7 +27,7 @@ class ModelEvaluation:
             self.data_ingestion_artifact= data_ingestion_artifact
             self.data_transformation_artifact= data_transformation_artifact
             self.model_trainer_artifact= model_trainer_artifact
-            self.model_locator= ModelLocator
+            self.model_locator= ModelLocator()
         except Exception as e:
             print(f"\nError : {e}")
             raise SensorException(e, sys)
@@ -40,8 +40,7 @@ class ModelEvaluation:
 
             latest_dir_path= self.model_locator.get_latest_dir_path()
             if latest_dir_path==None:
-                model_evaluation_artifact = artifact_entity.ModelEvaluationArtifact(model_accepted==True,
-                improved_accuracy=None)
+                model_evaluation_artifact = artifact_entity.ModelEvaluationArtifact(model_accepted= True, improved_accuracy= None)
                 logging.info(f"Model evaluation artifact: {model_evaluation_artifact}")
                 return model_evaluation_artifact
             
@@ -49,7 +48,7 @@ class ModelEvaluation:
             logging.info(f"Locating PREVIOUSLY TRAINED MODEL, TRANSFORMER AND ENCODER paths.")
             transformer_path= self.model_locator.get_latest_transformer_path()
             model_path= self.model_locator.get_latest_model_path()
-            target_encoder_path= self.model_locator.get_latest_target_encoder_path
+            target_encoder_path= self.model_locator.get_latest_target_encoder_path()
 
             #3 De-serialize the binaries of PREVIOSULY TRAINED transformer, model and target encoder. 
             logging.info(f"De-serializing the binaries of transformer, model and encoder for the PREVIOUSLY TRAINED MODEL.")
@@ -71,7 +70,8 @@ class ModelEvaluation:
             y_true= target_encoder.transform(target_df)
 
             #6 Compute the accuraccy using previously trained model.
-            input_arr= transformer.transform(test_df)
+            input_feature_name = list(transformer.feature_names_in_)
+            input_arr= transformer.transform(input_feature_name)
             y_pred= model.predict(input_arr)
             print(f"Predictions made by the previous model: {target_encoder.inverse_transform(y_pred[:5])}")
 
@@ -79,7 +79,9 @@ class ModelEvaluation:
             previous_model_score= f1_score(y_true= y_true, y_pred= y_pred)
             logging.info(f"PREVIOUS MODEL score : {previous_model_score}")
 # RECENTLY TRAINED MODEL
-            input_arr= latest_transformer.transform(test_df)
+            # Get the names of the features to be transformed.
+            input_feature_name = list(transformer.feature_names_in_)
+            input_arr= latest_transformer.transform(input_feature_name)
             y_pred= latest_model.predict(input_arr)
             print(f"Predictions made by the previous model: {latest_target_encoder.inverse_transform(y_pred[:5])}")
             latest_model_score = f1_score(y_true=y_true, y_pred=y_pred)

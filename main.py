@@ -2,7 +2,7 @@ import sys
 from sensor.logger import logging
 from sensor.exception import SensorException
 from sensor.entity import config_entity, artifact_entity
-from sensor.components import Data_Ingestion, Data_validation, Data_Transformation, Model_trainer
+from sensor.components import Data_Ingestion, Data_validation, Data_Transformation, Model_trainer, Model_pusher, Model_evaluation
 
 if __name__== '__main__':
     try:
@@ -42,6 +42,28 @@ if __name__== '__main__':
         model_trainer_artifact= model_trainer.initiate_model_trainer()
         print(model_trainer_artifact)
         print('\nModel Training Completed.\n')
+    
+    # Evaluating the model
+        print('\nInitiating Model Evaluation.\n')
+        model_evaluation_config= config_entity.ModelEvaluationConfig(training_pipeline_config= training_pipeline_config)
+        model_eval= Model_evaluation.ModelEvaluation(model_evaluation_config= model_evaluation_config,
+                                                    data_ingestion_artifact= data_ingestion_artifact,
+                                                    data_transformation_artifact= data_transformation_artifact,
+                                                    model_trainer_artifact= model_trainer_artifact)
+        model_eval_artifact= model_eval.initiate_model_evaluation()
+        print(model_eval_artifact)
+        print('\nModel Evaluation Completed.\n')
+    # Model Pushing.
+        print('\nInitiating Model Pusher.\n')
+        model_pusher_config= config_entity.ModelPusherConfig(training_pipeline_config= training_pipeline_config)
+        model_pusher= Model_pusher.ModelPusher(model_pusher_config= model_pusher_config,
+                                               data_transformation_artifact= data_transformation_artifact,
+                                               model_evaluation_artifact= model_eval_artifact,
+                                               model_trainer_artifact= model_trainer_artifact)
+        model_pusher_artifact= model_pusher.initiate_model_pusher()
+        print(model_pusher_artifact)
+        print('\nModel Pushing Completed.\n')
+
 
     except Exception as e:
         print('Error: ',e)

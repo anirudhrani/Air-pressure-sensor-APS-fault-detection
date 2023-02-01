@@ -26,7 +26,7 @@ class ModelTrainerArtifact:
 @dataclass
 class ModelEvaluationArtifact:
     model_accepted:bool
-    improved_accuracy_score:float
+    improved_accuracy:float
 @dataclass
 class ModelPusherArtifact:
     pusher_model_dir:str

@@ -110,7 +110,13 @@ class ModelPusherConfig:
         self.push_model_to_artifact= os.path.join(training_pipeline_config.artifact_dir, "model_pusher")
 
         # Create a file on the base level called saved_models.
-        self.push_model_dir= os.path.join("saved_models")
+        self.saved_model_dir= os.path.join("saved_models")
 
         # Create a similar file named saved_models inside the artifact.
         self.pusher_model_dir= os.path.join(self.push_model_to_artifact, "saved_models")
+
+        # Store the path location, where you want to save the model, target encoder and transformer.
+        self.push_model_to_path= os.path.join(self.pusher_model_dir, MODEL_FILE_NAME)
+        self.push_transformer_to_path= os.path.join(self.pusher_model_dir, TRANSFORMER_OBJECT_FILE_NAME)
+        self.push_target_encoder_to_path= os.path.join(self.pusher_model_dir, TARGET_ENCODER_OBJECT)
+        
