@@ -6,7 +6,7 @@ Designed and implemented an end-to-end scalable and deployable pipeline which ca
 -> Automated the process of dealing imbalanced data.  
 -> Automated statistical analysis reports creation in various stages of pipeline artifacts.  
 
-# File Structure
+## File Structure
 ```
 Air pressure sensor fault detection
     |
@@ -27,7 +27,7 @@ Air pressure sensor fault detection
     |             |                |-- init.py
     |             |                |-- Data_Ingestion.py      # DATA COLLECTION. 
     |             |                |-- Data_Transformation.py # DATA PRE-PROCESSING. 
-    |             |                |-- Data_validation.py     # VALIDATE DATA FOR BEFORE PREPROCESSING.
+    |             |                |-- Data_validation.py     # VALIDATE DATA BEFORE PREPROCESSING.
     |             |                |-- Model_evaluation.py    # EVALUATE MODELS.
     |             |                |-- Model_pusher.py        # DEPLOYMENT.
     |             |                |-- Model_trainer.py       # TRAIN DATA ON A MODEL.
@@ -40,7 +40,7 @@ Air pressure sensor fault detection
     |             |-- PIPELINE --|
     |                            |-- init.py
     |                            |-- training_pipeline.py     # Initiates and binds all the components.
-    |                            |-- batch_prediction.py      # Predction to trigger an immediate response.
+    |                            |-- batch_prediction.py      # Prediction to trigger an immediate response.
     |
     |-- .gitignore                                            # Listed file names that need not be tracked.
     |-- Dataset                                               # .csv file.
