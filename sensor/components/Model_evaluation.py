@@ -70,8 +70,12 @@ class ModelEvaluation:
             y_true= target_encoder.transform(target_df)
 
             #6 Compute the accuraccy using previously trained model.
+
+            # Take input feature names from the transformer input.
             input_feature_name = list(transformer.feature_names_in_)
-            input_arr= transformer.transform(input_feature_name)
+            # Transform those columns by the old transfromer on test_df.
+            input_arr= transformer.transform(test_df[input_feature_name])
+            # Make predictions on the input array.
             y_pred= model.predict(input_arr)
             print(f"Predictions made by the previous model: {target_encoder.inverse_transform(y_pred[:5])}")
 
@@ -80,10 +84,21 @@ class ModelEvaluation:
             logging.info(f"PREVIOUS MODEL score : {previous_model_score}")
 # RECENTLY TRAINED MODEL
             # Get the names of the features to be transformed.
-            input_feature_name = list(transformer.feature_names_in_)
-            input_arr= latest_transformer.transform(input_feature_name)
+
+            # Get the input feature names from the latest transformer.
+            input_feature_name = list(latest_transformer.feature_names_in_)
+            
+            # Transform those columns using the latest tranformer on the input test_df.
+            input_arr= latest_transformer.transform(test_df[input_feature_name])
+            
+            # Make predictions on the inpit array
             y_pred= latest_model.predict(input_arr)
+
+            # Prepare y_true using target encoder.
+            y_true= latest_target_encoder.transform(target_df)
             print(f"Predictions made by the previous model: {latest_target_encoder.inverse_transform(y_pred[:5])}")
+            
+            # Compute f1-score for the latest model.
             latest_model_score = f1_score(y_true=y_true, y_pred=y_pred)
             logging.info(f"CURRENT MODEL score : {latest_model_score}")
 

@@ -4,7 +4,7 @@ from sensor.exception import SensorException
 from sensor.entity import config_entity, artifact_entity
 from sensor.components import Data_Ingestion, Data_validation, Data_Transformation, Model_trainer, Model_pusher, Model_evaluation
 
-def start_model_training():
+def start_training_pipeline():
     try:
     # Testing Data Ingestion.
         print('\n-> Initiating Data Ingestion.\n')
