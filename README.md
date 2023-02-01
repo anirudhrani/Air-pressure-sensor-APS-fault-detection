@@ -42,7 +42,7 @@ Air pressure sensor fault detection
     |                            |-- training_pipeline.py     # Initiates and binds all the components.
     |                            |-- batch_prediction.py      
     |
-    |-- .gitignore
+    |-- .gitignore                                            # Listed file names that need not be tracked.
     |-- Dataset                                               # .csv file.
     |-- data_dump.py                                          # Dumps data (.csv) to database.
     |-- logger_and_exception_tester.py                        # Testig logger and exception module.
