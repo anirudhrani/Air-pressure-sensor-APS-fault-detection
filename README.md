@@ -40,7 +40,7 @@ Air pressure sensor fault detection
     |             |-- PIPELINE --|
     |                            |-- init.py
     |                            |-- training_pipeline.py     # Initiates and binds all the components.
-    |                            |-- batch_prediction.py      
+    |                            |-- batch_prediction.py      # Predction to trigger an immediate response.
     |
     |-- .gitignore                                            # Listed file names that need not be tracked.
     |-- Dataset                                               # .csv file.
