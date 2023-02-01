@@ -101,9 +101,10 @@ class ModelEvaluation:
             # Compute f1-score for the latest model.
             latest_model_score = f1_score(y_true=y_true, y_pred=y_pred)
             logging.info(f"CURRENT MODEL score : {latest_model_score}")
+            
 
             #7 Compare the models
-            if latest_model_score<=previous_model_score:
+            if latest_model_score<previous_model_score:
                 logging.info(f"Recently trained model is not better than previous model")
                 raise Exception("Recently trained model is not better than previous model")
 
