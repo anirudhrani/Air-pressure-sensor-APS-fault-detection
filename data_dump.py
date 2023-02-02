@@ -2,8 +2,9 @@ import pymongo
 import pandas as pd
 import json
 import os
+from dotenv import load_dotenv
 
-
+load_dotenv()
 client= pymongo.MongoClient(os.getenv('MONGO_DB_ATLAS_URL'))
  
 DATAPATH= "aps_failure_training_set1.csv"

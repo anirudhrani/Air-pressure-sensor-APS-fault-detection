@@ -1,0 +1,12 @@
+version: "2"
+services:
+  application:
+    image: ${IMAGE_IMAGE}
+    container_name: sensor
+    ports:
+     - "8080:8080"
+    environment:
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_KEY=${AWS_SECRET_KEY}
+      - MONGO_DB_LOCAL_HOST_URL=${MONGO_DB_LOCAL_HOST_URL}
+      - MONGO_DB_ATLAS_URL=${MONGO_DB_ATLAS_URL}
