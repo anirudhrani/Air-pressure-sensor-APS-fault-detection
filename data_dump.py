@@ -3,9 +3,8 @@ import pandas as pd
 import json
 import os
 
-URL= "mongodb+srv://test:test@cluster0.w4eegio.mongodb.net/?retryWrites=true&w=majority"
-# client= pymongo.MongoClient(os.getenv('MONGO_DB_URL'))
-client= pymongo.MongoClient(URL)
+
+client= pymongo.MongoClient(os.getenv('MONGO_DB_ATLAS_URL'))
  
 DATAPATH= "aps_failure_training_set1.csv"
 DATABASE_NAME= 'aps'
