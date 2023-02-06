@@ -5,7 +5,8 @@ import os
 from dotenv import load_dotenv
 
 load_dotenv()
-client= pymongo.MongoClient(os.getenv('MONGO_DB_ATLAS_URL'))
+client_atlas= pymongo.MongoClient(os.getenv('MONGO_DB_ATLAS_URL'))
+client_local= pymongo.MongoClient(os.getenv('MONGO_DB_LOCAL_HOST_URL'))
  
 DATAPATH= "aps_failure_training_set1.csv"
 DATABASE_NAME= 'aps'
@@ -23,4 +24,5 @@ if __name__== '__main__':
     json_records= list(json.loads(df.T.to_json()).values())
     
     # Bulk insert data to mongo db
-    client[DATABASE_NAME][COLLECTION_NAME].insert_many(json_records)
+    client_atlas[DATABASE_NAME][COLLECTION_NAME].insert_many(json_records)
+    client_local[DATABASE_NAME][COLLECTION_NAME].insert_many(json_records)
